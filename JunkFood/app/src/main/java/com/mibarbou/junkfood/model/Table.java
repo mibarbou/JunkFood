@@ -1,18 +1,27 @@
 package com.mibarbou.junkfood.model;
 
-import java.util.HashMap;
+import java.io.Serializable;
+import java.util.LinkedList;
 
 /**
  * Created by michel on 08/12/2016.
  */
 
-public class Table {
+public class Table implements Serializable{
     private Integer mId;
-    private HashMap<Food,Integer> mOrder;
+    private String mName;
+    private LinkedList<Order> mOrders;
 
-    public Table(Integer id, HashMap<Food, Integer> order) {
+    public Table(Integer id, LinkedList<Order> order) {
         mId = id;
-        mOrder = order;
+        mName = String.format("MESA %d", id);
+        mOrders = order;
+    }
+
+    public Table(Integer id) {
+        mId = id;
+        mName = String.format("MESA %d", id);
+        mOrders = new LinkedList<Order>();
     }
 
     public Integer getId() {
@@ -23,16 +32,16 @@ public class Table {
         mId = id;
     }
 
-    public HashMap<Food, Integer> getOrder() {
-        return mOrder;
+    public String getName() {
+        return mName;
     }
 
-    public void setOrder(HashMap<Food, Integer> order) {
-        mOrder = order;
+    public LinkedList<Order> getOrders() {
+        return mOrders;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(getId());
+        return getName();
     }
 }
