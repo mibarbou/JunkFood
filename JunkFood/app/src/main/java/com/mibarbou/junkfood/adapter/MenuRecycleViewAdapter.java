@@ -9,48 +9,52 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mibarbou.junkfood.R;
+import com.mibarbou.junkfood.activity.MenuActivity;
 import com.mibarbou.junkfood.model.Food;
-import com.mibarbou.junkfood.model.Order;
 
 import java.util.LinkedList;
 
 /**
- * Created by michel on 08/12/2016.
+ * Created by michel on 10/12/2016.
  */
 
-public class OrdersRecycleViewAdapter extends RecyclerView.Adapter<OrdersRecycleViewAdapter.OrderViewHolder> {
-    private LinkedList<Order> mOrders;
+public class MenuRecycleViewAdapter extends RecyclerView.Adapter<MenuRecycleViewAdapter.MenuViewHolder> {
+
+    private LinkedList<Food> mFoods;
     private Context mContext;
 
-    public OrdersRecycleViewAdapter(LinkedList<Order> orders, Context context) {
+    private OnItemClickListener mOnItemClickListener;
+
+    public MenuRecycleViewAdapter(LinkedList<Food> foods, OnItemClickListener onItemClickListener) {
         super();
-        mOrders = orders;
-        mContext = context;
+        mFoods = foods;
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
-    public OrderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MenuRecycleViewAdapter.MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_food, parent, false);
-        return new OrderViewHolder(view);
+        return new MenuRecycleViewAdapter.MenuViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(OrderViewHolder holder, int position) {
-        holder.bindOrder(mOrders.get(position), mContext);
+    public void onBindViewHolder(MenuRecycleViewAdapter.MenuViewHolder holder, final int position) {
+        holder.bindFood(mFoods.get(position), mContext);
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Food selectedFood = mFoods.get(position);
+                mOnItemClickListener.onFoodSelected(selectedFood);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mOrders.size();
+        return mFoods.size();
     }
 
-    protected class OrderViewHolder extends  RecyclerView.ViewHolder {
+    protected class MenuViewHolder extends  RecyclerView.ViewHolder {
         private TextView mFoodName;
         private TextView mPrice;
         private TextView mAllergens;
@@ -59,7 +63,7 @@ public class OrdersRecycleViewAdapter extends RecyclerView.Adapter<OrdersRecycle
         private View mView;
 
 
-        public OrderViewHolder(View itemView) {
+        public MenuViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView;
@@ -71,8 +75,7 @@ public class OrdersRecycleViewAdapter extends RecyclerView.Adapter<OrdersRecycle
             mFoodImage = (ImageView) itemView.findViewById(R.id.food_image);
         }
 
-        public void  bindOrder(Order order, Context context) {
-            Food food = order.getFood();
+        public void  bindFood(Food food, Context context) {
 
             mFoodName.setText(food.getName());
             mPrice.setText(String.format("Precio: %.2f€", food.getPrice()));
@@ -88,5 +91,10 @@ public class OrdersRecycleViewAdapter extends RecyclerView.Adapter<OrdersRecycle
 
     }
 
+    public interface OnItemClickListener {
+        public void onFoodSelected(Food food);
+    }
+
 }
+
 

@@ -8,35 +8,56 @@ import java.io.Serializable;
 
 public class Food implements Serializable{
     private String mName;
-    private String mPhotoURL;
-    private Integer mId;
+    private int icon;
+    private String mAllergens;
+    private float mPrice;
+    private int mId;
 
-    public Food(String name, String photoURL) {
+    public Food(String name, int photoURL, String allergens, float price, int id) {
         mName = name;
-        mPhotoURL = photoURL;
+        icon = photoURL;
+        mPrice = price;
+        mAllergens = allergens;
+        mId = id;
+    }
+
+    public float getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(float price) {
+        mPrice = price;
+    }
+
+    public String getAllergens() {
+        return mAllergens;
+    }
+
+    public void setAllergens(String allergens) {
+        mAllergens = allergens;
     }
 
     public String getName() {
         return mName;
     }
 
-    public String getPhotoURL() {
-        return mPhotoURL;
+    public int getIcon() {
+        return icon;
     }
 
     public void setName(String name) {
         mName = name;
     }
 
-    public void setPhotoURL(String photoURL) {
-        mPhotoURL = photoURL;
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 
-    public Integer getId() {
+    public int getId() {
         return mId;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         mId = id;
     }
 

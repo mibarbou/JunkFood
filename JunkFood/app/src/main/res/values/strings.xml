@@ -6,4 +6,6 @@
     <string name="previous">Anterior</string>
     <string name="next">Siguiente</string>
     <string name="settings">Ajustes</string>
+    <string name="error">Error</string>
+    <string name="menu_download_error_message">No se pudo descargar la información del menú</string>
 </resources>
