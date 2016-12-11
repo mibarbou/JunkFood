@@ -1,10 +1,12 @@
 package com.mibarbou.junkfood.model;
 
+import java.io.Serializable;
+
 /**
  * Created by michel on 10/12/2016.
  */
 
-public class Order {
+public class Order implements Serializable {
     private Food mFood;
     private String mObservation;
 

@@ -1,12 +1,13 @@
 package com.mibarbou.junkfood.model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * Created by michel on 08/12/2016.
  */
 
-public class Foods {
+public class Foods implements Serializable {
 
     private LinkedList<Food>mFoods;
 

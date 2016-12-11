@@ -1,12 +1,13 @@
 package com.mibarbou.junkfood.model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * Created by michel on 08/12/2016.
  */
 
-public class Tables {
+public class Tables implements Serializable {
     private LinkedList<Table>mTables;
 
     public Tables(LinkedList<Table> tables) {
@@ -21,6 +22,11 @@ public class Tables {
         mTables.add(new Table(3));
         mTables.add(new Table(4));
         mTables.add(new Table(5));
+        mTables.add(new Table(6));
+        mTables.add(new Table(7));
+        mTables.add(new Table(8));
+        mTables.add(new Table(9));
+        mTables.add(new Table(10));
     }
 
     public LinkedList<Table> getTables() {

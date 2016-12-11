@@ -93,7 +93,6 @@ public class MenuActivity extends AppCompatActivity implements MenuRecycleViewAd
                 InputStream input = null;
 
                 try {
-                    // Nos bajamos los datos
                     url = new URL("http://www.mocky.io/v2/584d469a0f00005310d40f4a");
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.connect();

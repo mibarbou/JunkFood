@@ -76,7 +76,7 @@ public class OrdersRecycleViewAdapter extends RecyclerView.Adapter<OrdersRecycle
 
             mFoodName.setText(food.getName());
             mPrice.setText(String.format("Precio: %.2f€", food.getPrice()));
-            mAllergens.setText(food.getAllergens());
+            mAllergens.setText("Alérgenos: " + food.getAllergens());
             mObservations.setText("");
             mFoodImage.setImageResource(food.getIcon());
 
