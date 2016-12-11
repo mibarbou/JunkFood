@@ -10,8 +10,13 @@ import com.mibarbou.junkfood.R;
 import com.mibarbou.junkfood.fragment.TableListFragment;
 import com.mibarbou.junkfood.fragment.TablePagerFragment;
 import com.mibarbou.junkfood.model.Table;
+import com.mibarbou.junkfood.model.Tables;
 
 public class TableActivity extends AppCompatActivity implements TableListFragment.OnTableSelectedListener {
+
+    private int TABLES_CODE = 0;
+
+    private Tables mTables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +27,11 @@ public class TableActivity extends AppCompatActivity implements TableListFragmen
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
 
+        mTables = new Tables();
+
         FragmentManager fm = getFragmentManager();
+
+        TableListFragment tableListFragment = TableListFragment.newInstance(mTables);
 
         if (findViewById(R.id.fragment_table_pager) != null) {
 
@@ -37,7 +46,7 @@ public class TableActivity extends AppCompatActivity implements TableListFragmen
 
             if (fm.findFragmentById(R.id.fragment_table_list) == null) {
                 fm.beginTransaction()
-                        .add(R.id.fragment_table_list, new TableListFragment())
+                        .add(R.id.fragment_table_list, tableListFragment)
                         .commit();
             }
         }
@@ -58,8 +67,30 @@ public class TableActivity extends AppCompatActivity implements TableListFragmen
 
             Intent intent = new Intent(this, TablePagerActivity.class);
             intent.putExtra(TablePagerActivity.EXTRA_TABLE_INDEX, position);
+            intent.putExtra(TablePagerActivity.EXTRA_TABLES, mTables);
 
-            startActivity(intent);
+            startActivityForResult(intent, TABLES_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TABLES_CODE && resultCode == RESULT_OK) {
+            mTables = (Tables) data.getSerializableExtra(TablePagerFragment.EXTRA_TABLES);
+
+            FragmentManager fm = getFragmentManager();
+
+            TableListFragment tableListFragment = TableListFragment.newInstance(mTables);
+
+            if (findViewById(R.id.fragment_table_list) != null) {
+
+                if (fm.findFragmentById(R.id.fragment_table_list) == null) {
+                    fm.beginTransaction()
+                            .add(R.id.fragment_table_list, tableListFragment)
+                            .commit();
+                }
+            }
         }
     }
 }

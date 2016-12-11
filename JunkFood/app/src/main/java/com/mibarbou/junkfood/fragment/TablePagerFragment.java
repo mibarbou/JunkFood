@@ -3,6 +3,7 @@ package com.mibarbou.junkfood.fragment;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -21,30 +22,29 @@ import com.mibarbou.junkfood.R;
 import com.mibarbou.junkfood.model.Table;
 import com.mibarbou.junkfood.model.Tables;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TablePagerFragment extends Fragment {
 
     private static final String ARG_TABLE_INDEX = "ARG_TABLE_INDEX";
+    public static final String EXTRA_TABLES = "EXTRA_TABLES";
 
     private Tables mTables;
     private ViewPager mPager;
     private int mInitialTableIndex;
 
-    public static TablePagerFragment newInstance(int tableIndex) {
+    public static TablePagerFragment newInstance(int tableIndex, Tables tables) {
         Bundle arguments = new Bundle();
         arguments.putInt(ARG_TABLE_INDEX, tableIndex);
+        arguments.putSerializable(EXTRA_TABLES, tables);
 
         TablePagerFragment tablePagerFragment = new TablePagerFragment();
         tablePagerFragment.setArguments(arguments);
 
         return tablePagerFragment;
-    }
-
-    public TablePagerFragment() {
-        // Required empty public constructor
-        mTables = new Tables();
     }
 
     @Override
@@ -53,6 +53,9 @@ public class TablePagerFragment extends Fragment {
 
         if (getArguments() != null) {
             mInitialTableIndex = getArguments().getInt(ARG_TABLE_INDEX, 0);
+            mTables = (Tables) getArguments().getSerializable(EXTRA_TABLES);
+        } else{
+            mTables = new Tables();
         }
 
         setHasOptionsMenu(true);
@@ -122,6 +125,15 @@ public class TablePagerFragment extends Fragment {
             // Avanzamos una página
             mPager.setCurrentItem(mPager.getCurrentItem() + 1);
 
+            return true;
+        }else if (item.getItemId() == android.R.id.home) {
+            // Han pulsado la flecha de back de la Actionbar, finalizamos la actividad
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(EXTRA_TABLES, mTables);
+
+            getActivity().setResult(RESULT_OK, returnIntent);
+
+            getActivity().finish();
             return true;
         }
 

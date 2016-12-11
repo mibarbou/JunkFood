@@ -9,10 +9,14 @@ import android.view.MenuItem;
 
 import com.mibarbou.junkfood.R;
 import com.mibarbou.junkfood.fragment.TablePagerFragment;
+import com.mibarbou.junkfood.model.Tables;
 
 public class TablePagerActivity extends AppCompatActivity {
 
     public static final String EXTRA_TABLE_INDEX = "EXTRA_TABLE_INDEX";
+    public static final String EXTRA_TABLES = "EXTRA_TABLES";
+
+    private Tables mTables;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,8 +31,9 @@ public class TablePagerActivity extends AppCompatActivity {
         if (fm.findFragmentById(R.id.fragment_table_pager) == null){
 
             int tableIndex = getIntent().getIntExtra(EXTRA_TABLE_INDEX, 0);
+            mTables = (Tables) getIntent().getSerializableExtra(EXTRA_TABLES);
 
-            TablePagerFragment tablePagerFragment = TablePagerFragment.newInstance(tableIndex);
+            TablePagerFragment tablePagerFragment = TablePagerFragment.newInstance(tableIndex, mTables);
 
             fm.beginTransaction()
                     .add(R.id.fragment_table_pager, tablePagerFragment)
@@ -38,16 +43,5 @@ public class TablePagerActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean superValue = super.onOptionsItemSelected(item);
 
-        if (item.getItemId() == android.R.id.home) {
-            // Han pulsado la flecha de back de la Actionbar, finalizamos la actividad
-            finish();
-            return true;
-        }
-
-        return superValue;
-    }
 }

@@ -23,6 +23,26 @@ import com.mibarbou.junkfood.model.Tables;
 public class TableListFragment extends Fragment {
 
     private OnTableSelectedListener mOnTableSelectedListener;
+    public static final String EXTRA_TABLES = "EXTRA_TABLES";
+    private Tables mTables;
+
+    public static TableListFragment newInstance(Tables tables) {
+        TableListFragment fragment = new TableListFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_TABLES, tables);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mTables = (Tables) getArguments().getSerializable(EXTRA_TABLES);
+        }
+
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -34,13 +54,12 @@ public class TableListFragment extends Fragment {
 
         ListView list = (ListView) root.findViewById(android.R.id.list);
 
-        final Tables tables = new Tables();
 
         ArrayAdapter<Table> adapter = new ArrayAdapter<Table>(
                 getActivity(),
                 android.R.layout.simple_list_item_1,
-                tables.getTables()
-                );
+                mTables.getTables()
+        );
 
         list.setAdapter(adapter);
 
@@ -49,7 +68,7 @@ public class TableListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 if (mOnTableSelectedListener != null) {
-                    mOnTableSelectedListener.onTableSelected(tables.getTable(position), position);
+                    mOnTableSelectedListener.onTableSelected(mTables.getTable(position), position);
                 }
             }
         });
